@@ -46,36 +46,55 @@ namespace winTreeView
                 #endregion
 
                 #region "Elementos"
+
+
                 elementos = new List<Elemento>();
                 //Cargamos el archivo archivo de los elementos.  Si no existe lo creamos
+
+
+
                 sr = new StreamReader(File.Open("elementos.txt", FileMode.OpenOrCreate));
-                //Vamos leyendo líneas y añadiéndolos a la lista
+                
                 while ((sLine = sr.ReadLine()) != null)
                 {
-                    string _nodo, _elemento;
-                    _nodo = _elemento = "";
+                    string nodo, elemento;
+
+
+                    nodo = elemento = "";
+
+
                     int pos = 0, trobat = -1;
-                    //NODO
+                    
+
+                   //// NODO ////
+
+
                     trobat = sLine.IndexOf("|", pos);
                     if (trobat > -1)
                     {
-                        _nodo = sLine.Substring(pos, trobat);
+                        nodo = sLine.Substring(pos, trobat);
                         pos = trobat + 1;
                         trobat = -1;
                         sLine = sLine.Substring(pos);
                     }
-                    //ELEMENTO
+
+
+
+
+                    ////  ELEMENTO  ////
+                    
+
                     pos = 0;
                     trobat = sLine.IndexOf("|", pos);
                     if (trobat > -1)
                     {
-                        _elemento = sLine.Substring(pos, trobat);
+                        elemento = sLine.Substring(pos, trobat);
                         pos = trobat + 1;
                         trobat = -1;
                         sLine = sLine.Substring(pos);
                     }
-                    //Añadimos el elemento al nodo
-                    elementos.Add(new Elemento(_nodo, _elemento));
+                    
+                    elementos.Add(new Elemento(nodo, elemento)); //// Añade elementos a los Nodos Creados ////
                 }
                 sr.Close();
 

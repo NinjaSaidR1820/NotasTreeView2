@@ -64,9 +64,9 @@
             // 
             this.ssMensaje.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.stlMensaje});
-            this.ssMensaje.Location = new System.Drawing.Point(0, 410);
+            this.ssMensaje.Location = new System.Drawing.Point(0, 412);
             this.ssMensaje.Name = "ssMensaje";
-            this.ssMensaje.Size = new System.Drawing.Size(786, 22);
+            this.ssMensaje.Size = new System.Drawing.Size(806, 22);
             this.ssMensaje.TabIndex = 34;
             this.ssMensaje.Text = "statusStrip1";
             // 
@@ -80,7 +80,7 @@
             // btnElemento
             // 
             this.btnElemento.Enabled = false;
-            this.btnElemento.Location = new System.Drawing.Point(330, 366);
+            this.btnElemento.Location = new System.Drawing.Point(865, 560);
             this.btnElemento.Name = "btnElemento";
             this.btnElemento.Size = new System.Drawing.Size(91, 23);
             this.btnElemento.TabIndex = 33;
@@ -90,16 +90,16 @@
             // 
             // txtElemento
             // 
-            this.txtElemento.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtElemento.Font = new System.Drawing.Font("Palatino Linotype", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtElemento.Location = new System.Drawing.Point(142, 80);
             this.txtElemento.Multiline = true;
             this.txtElemento.Name = "txtElemento";
-            this.txtElemento.Size = new System.Drawing.Size(404, 44);
+            this.txtElemento.Size = new System.Drawing.Size(622, 51);
             this.txtElemento.TabIndex = 32;
             // 
             // btnNodo
             // 
-            this.btnNodo.Location = new System.Drawing.Point(161, 366);
+            this.btnNodo.Location = new System.Drawing.Point(696, 560);
             this.btnNodo.Name = "btnNodo";
             this.btnNodo.Size = new System.Drawing.Size(76, 23);
             this.btnNodo.TabIndex = 30;
@@ -131,7 +131,7 @@
             this.lstElementos.ItemHeight = 20;
             this.lstElementos.Location = new System.Drawing.Point(145, 157);
             this.lstElementos.Name = "lstElementos";
-            this.lstElementos.Size = new System.Drawing.Size(627, 164);
+            this.lstElementos.Size = new System.Drawing.Size(619, 244);
             this.lstElementos.TabIndex = 25;
             // 
             // treeNodos
@@ -144,7 +144,7 @@
             // 
             // btnEliminarElem
             // 
-            this.btnEliminarElem.Location = new System.Drawing.Point(427, 366);
+            this.btnEliminarElem.Location = new System.Drawing.Point(962, 560);
             this.btnEliminarElem.Name = "btnEliminarElem";
             this.btnEliminarElem.Size = new System.Drawing.Size(101, 23);
             this.btnEliminarElem.TabIndex = 36;
@@ -154,7 +154,7 @@
             // 
             // btnEliminarNodo
             // 
-            this.btnEliminarNodo.Location = new System.Drawing.Point(243, 366);
+            this.btnEliminarNodo.Location = new System.Drawing.Point(778, 560);
             this.btnEliminarNodo.Name = "btnEliminarNodo";
             this.btnEliminarNodo.Size = new System.Drawing.Size(81, 23);
             this.btnEliminarNodo.TabIndex = 35;
@@ -198,7 +198,7 @@
             this.toolsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(786, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(806, 24);
             this.menuStrip1.TabIndex = 41;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -217,12 +217,14 @@
             this.addFolderToolStripMenuItem.Name = "addFolderToolStripMenuItem";
             this.addFolderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addFolderToolStripMenuItem.Text = "Add Folder";
+            this.addFolderToolStripMenuItem.Click += new System.EventHandler(this.AddFolderToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Text = "Save Message";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -245,12 +247,14 @@
             this.deleteFolderToolStripMenuItem.Name = "deleteFolderToolStripMenuItem";
             this.deleteFolderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteFolderToolStripMenuItem.Text = "Delete Folder";
+            this.deleteFolderToolStripMenuItem.Click += new System.EventHandler(this.DeleteFolderToolStripMenuItem_Click);
             // 
             // deleteMessageToolStripMenuItem
             // 
             this.deleteMessageToolStripMenuItem.Name = "deleteMessageToolStripMenuItem";
             this.deleteMessageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteMessageToolStripMenuItem.Text = "Delete Message";
+            this.deleteMessageToolStripMenuItem.Click += new System.EventHandler(this.DeleteMessageToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
@@ -293,7 +297,7 @@
             // 
             // btnSalir
             // 
-            this.btnSalir.Location = new System.Drawing.Point(534, 366);
+            this.btnSalir.Location = new System.Drawing.Point(1069, 560);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(64, 23);
             this.btnSalir.TabIndex = 37;
@@ -305,7 +309,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(786, 432);
+            this.ClientSize = new System.Drawing.Size(806, 434);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);

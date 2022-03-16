@@ -264,174 +264,24 @@ namespace winTreeView
         }
 
         #endregion
-        private void Limpiar()
-        {
-            stlMensaje.Text = null;
-        }
-
-
-        private void guardaElementos()
-        {
-            try
-            {
-                
-                StreamWriter sw = new StreamWriter(File.OpenWrite("elementos.txt"));
-                
-                string cadena;
-                foreach (Elemento item in elementos)
-                {
-                    cadena = item.nodo.ToString() + "|";
-                    cadena += item.elemento.ToString() + "|";
-                    sw.WriteLine(cadena);
-                }
-                sw.Flush();
-                sw.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Source + "\n" + ex.Message, "Error en guardaElementos", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                sw.Close();
-            }
-        }
         
+
+
         private void btnNodo_Click(object sender, EventArgs e)
         {
-            string indice = "";
-
-            try
-            {
-                Limpiar();
-
-                if (txtNodo.Text == "")
-                {
-                    stlMensaje.Text = "Debe Asignar Un Nombre Al Folder";
-                    MessageBox.Show(stlMensaje.Text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                
-                TreeNode aNode = new TreeNode(txtNodo.Text.Trim());
-                string nodoP, nodo;
-                nodoP = nodo = "";
-
-
-                //Comprueba si existen nodos
-                if (treeNodos.Nodes.Count == 0)
-                {   //Si no hay lo añade al nodo raíz
-                    nodoP = "";
-                    nodo = aNode.Text;
-                    treeNodos.Nodes.Add(aNode);
-                }
-                else
-                {
-                    nodo = aNode.Text;
-                    if (treeNodos.SelectedNode != null)
-                    {
-                        //Añadimos el nodo al treeView
-                        treeNodos.SelectedNode.Nodes.Add(aNode);
-                        
-                        indice = recuperaindiceNodo(treeNodos.SelectedNode);
-                    }
-                    else
-                    {
-                        nodoP = "";
-                        treeNodos.Nodes.Add(aNode);
-                    }
-                }
-
-
-                nodos.Add(new Nodo(indice, nodo, nodo));        //Añade el nodo a la lista en memoria
-                txtNodo.Text = "";
-                treeNodos.SelectedNode = new TreeNode("Categorias"); 
-                btnElemento.Enabled = true;
-
-                treeNodos.ExpandAll();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error en btnNodo_Click", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                stlMensaje.Text = ex.Message;
-            }
+            AddFolder();
         }
 
         private void btnEliminarNodo_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Limpiar();
-
-               
-                if (treeNodos.SelectedNode != null)
-                {  
-                    if (treeNodos.SelectedNode.Nodes.Count == 0)
-                    {   
-                        if (lstElementos != null)
-                        {
-                            if (lstElementos.Items.Count > 0)
-                            {
-                                MessageBox.Show("Este Nodo tiene elementos.  Elimine primero los elementos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                stlMensaje.Text = "Este Nodo tiene elementos.  Elimine primero los elementos.";
-                                return;
-                            }
-                        }
-                        string nodo = treeNodos.SelectedNode.Text;
-                        string indice = recuperaindiceNodo(treeNodos.SelectedNode);
-
-                        treeNodos.Nodes.Remove(treeNodos.SelectedNode);  
-                        nodos.Remove(new Nodo(indice, nodo, nodo));      
-
-                        if (treeNodos.Nodes.Count == 0)
-                            btnElemento.Enabled = false;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Existen nodos que cuelgan de éste.  Elimínelos primero para poder eliminar éste.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        stlMensaje.Text = "Existen nodos que cuelgan de éste.  Elimínelos primero para poder eliminar éste.";
-                    }
-                    
-                    treeNodos.SelectedNode = null;
-                }
-                else
-                {
-                    MessageBox.Show("Debe seleccionar el Nodo que desea eliminar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    stlMensaje.Text = "Debe seleccionar el Nodo que desea eliminar";
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error en btnEliminarNodo_Click", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                stlMensaje.Text = ex.Message;
-            }
-        }
-        
-        private void btnElemento_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                stlMensaje.Text = "";
-                if (txtElemento.Text == "")
-                {
-                    MessageBox.Show("Debe teclear el elemento que desea añadir", "Error de datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    stlMensaje.Text = "Debe teclear el elemento que desea añadir";
-                    return;
-                }
-                
-                lstElementos.Items.Add(txtElemento.Text.Trim());
-                
-                string nodo = treeNodos.SelectedNode.Text;
-                elementos.Add(new Elemento(nodo, txtElemento.Text.Trim()));
-                txtElemento.Text = "";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error en btnElemento_Click", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                stlMensaje.Text = ex.Message;
-            }
-
+            DeleteFolder();
         }
 
-        private void btnEliminarElem_Click(object sender, EventArgs e)
+
+
+
+        #region Methods
+        public void Deletemessage()
         {
             try
             {
@@ -455,14 +305,195 @@ namespace winTreeView
                 stlMensaje.Text = ex.Message;
             }
         }
-
-        private void btnSalir_Click(object sender, EventArgs e)
+        public void CloseYSave()
         {
             DialogResult r = MessageBox.Show("¿Estas Seguro que quieres salir?", "Registro De Estudiantes",
-                   MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+                  MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
 
             if (r == DialogResult.Yes) this.Close();
             if (r == DialogResult.No) return;
+        }
+        public void AddMessage()
+        {
+            try
+            {
+                stlMensaje.Text = "";
+                if (txtElemento.Text == "")
+                {
+                    MessageBox.Show("Debe teclear el elemento que desea añadir", "Error de datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    stlMensaje.Text = "Debe teclear el elemento que desea añadir";
+                    return;
+                }
+
+                lstElementos.Items.Add(txtElemento.Text.Trim());
+
+                string nodo = treeNodos.SelectedNode.Text;
+                elementos.Add(new Elemento(nodo, txtElemento.Text.Trim()));
+                txtElemento.Text = "";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error en btnElemento_Click", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                stlMensaje.Text = ex.Message;
+            }
+        }
+        private void Limpiar()
+        {
+            stlMensaje.Text = null;
+        }
+        public void AddFolder()
+        {
+            string indice = "";
+
+            try
+            {
+                Limpiar();
+
+                if (txtNodo.Text == "")
+                {
+                    stlMensaje.Text = "Debe Asignar Un Nombre Al Folder";
+                    MessageBox.Show(stlMensaje.Text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                TreeNode aNode = new TreeNode(txtNodo.Text.Trim());
+                string nodoP, nodo;
+                nodoP = nodo = "";
+
+
+                //Comprueba si existen nodos
+                if (treeNodos.Nodes.Count == 0)
+                {   //Si no hay lo añade al nodo raíz
+                    nodoP = "";
+                    nodo = aNode.Text;
+                    treeNodos.Nodes.Add(aNode);
+                }
+                else
+                {
+                    nodo = aNode.Text;
+                    if (treeNodos.SelectedNode != null)
+                    {
+                        //Añadimos el nodo al treeView
+                        treeNodos.SelectedNode.Nodes.Add(aNode);
+
+                        indice = recuperaindiceNodo(treeNodos.SelectedNode);
+                    }
+                    else
+                    {
+                        nodoP = "";
+                        treeNodos.Nodes.Add(aNode);
+                    }
+                }
+
+
+                nodos.Add(new Nodo(indice, nodo, nodo));        //Añade el nodo a la lista en memoria
+                txtNodo.Text = "";
+                treeNodos.SelectedNode = new TreeNode("Categorias");
+                btnElemento.Enabled = true;
+
+                treeNodos.ExpandAll();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error en btnNodo_Click", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                stlMensaje.Text = ex.Message;
+            }
+        }
+
+        private void guardaElementos()
+        {
+            try
+            {
+
+                StreamWriter sw = new StreamWriter(File.OpenWrite("elementos.txt"));
+
+                string cadena;
+                foreach (Elemento item in elementos)
+                {
+                    cadena = item.nodo.ToString() + "|";
+                    cadena += item.elemento.ToString() + "|";
+                    sw.WriteLine(cadena);
+                }
+                sw.Flush();
+                sw.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Source + "\n" + ex.Message, "Error en guardaElementos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                sw.Close();
+            }
+        }
+
+        public void DeleteFolder()
+        {
+            try
+            {
+                Limpiar();
+
+
+                if (treeNodos.SelectedNode != null)
+                {
+                    if (treeNodos.SelectedNode.Nodes.Count == 0)
+                    {
+                        if (lstElementos != null)
+                        {
+                            if (lstElementos.Items.Count > 0)
+                            {
+                                MessageBox.Show("Este Nodo tiene elementos.  Elimine primero los elementos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                stlMensaje.Text = "Este Nodo tiene elementos.  Elimine primero los elementos.";
+                                return;
+                            }
+                        }
+                        string nodo = treeNodos.SelectedNode.Text;
+                        string indice = recuperaindiceNodo(treeNodos.SelectedNode);
+
+                        treeNodos.Nodes.Remove(treeNodos.SelectedNode);
+                        nodos.Remove(new Nodo(indice, nodo, nodo));
+
+                        if (treeNodos.Nodes.Count == 0)
+                            btnElemento.Enabled = false;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Existen nodos que cuelgan de éste.  Elimínelos primero para poder eliminar éste.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        stlMensaje.Text = "Existen nodos que cuelgan de éste.  Elimínelos primero para poder eliminar éste.";
+                    }
+
+                    treeNodos.SelectedNode = null;
+                }
+                else
+                {
+                    MessageBox.Show("Debe seleccionar el Nodo que desea eliminar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    stlMensaje.Text = "Debe seleccionar el Nodo que desea eliminar";
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error en btnEliminarNodo_Click", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                stlMensaje.Text = ex.Message;
+            }
+        }
+
+
+
+        #endregion
+
+        private void btnElemento_Click(object sender, EventArgs e)
+        {
+            AddMessage();
+
+        }
+
+        private void btnEliminarElem_Click(object sender, EventArgs e)
+        {
+            Deletemessage();
+        }
+
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+            CloseYSave();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -506,14 +537,34 @@ namespace winTreeView
 
         #endregion
 
+
+        #region Button File
+        private void AddFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddFolder();
+        }
+
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddMessage();
+        }
+
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult r = MessageBox.Show("¿Estas Seguro que quieres salir?", "Registro De Estudiantes",
-                  MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
-
-            if (r == DialogResult.Yes) this.Close();
-            if (r == DialogResult.No) return;
-
+            CloseYSave();
         }
+        #endregion
+
+
+        #region Buttons Edit
+        private void DeleteFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DeleteFolder();
+        }
+        private void DeleteMessageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Deletemessage();
+        }
+        #endregion
     }
 }
